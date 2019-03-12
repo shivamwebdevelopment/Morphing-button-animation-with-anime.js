@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="style7.css" />
+    <title>Morphing animation</title>
+  </head>
+  <body>
+    <button id="btn">Click me!</button>
+
+    <svg viewBox="0 0 215 110">
+      <polygon class="polymorph" points="215, 110 0,110 0,0 47.7,0 215,0" />
+    </svg>
+
+    <div id="box">
+      <h3>Morphing Animation</h3>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis aut
+        nihil ipsum eaque. Beatae, aperiam?
+      </p>
+      <button id="btn2">Back up!</button>
+    </div>
+
+    <script src="anime.min.js"></script>
+
+    <script>
+      var btn = document.getElementById("btn");
+      var btn2 = document.getElementById("btn2");
+
+      btn.onclick = function() {
+        var morphing = anime({
+          targets: ".polymorph",
+          points: [
+            {
+              value: "215, 110 0,110 0,0 47.7,0 67,76"
+            },
+            {
+              value: "215, 110 0,110 0,0 0,0 67,76"
+            },
+            {
+              value: "215, 110 0,110 0,0 0,0 67,85"
+            }
+          ],
+          easing: "easeOutExpo",
+          duration: 1300,
+          loop: false
+        });
+        anime({
+          targets: "#box",
+          translateY: 150,
+          duration: 2000,
+          opacity: 1
+        });
+        anime({
+          targets: "#btn",
+          duration: 1000,
+          delay: -90000,
+          opacity: 0
+        });
+
+        var promise = morphing.finished.then(() => {
+          btn2.onclick = function() {
+            var morphing = anime({
+              targets: ".polymorph",
+              points: [
+                {
+                  value: "215, 110 0,110 0,0 0,0 67,76"
+                },
+                {
+                  value: "215, 110 0,110 0,0 47.7,0 67,76"
+                },
+                {
+                  value: "215, 110 0,110 0,0 47.7,0 215,0"
+                }
+              ],
+              easing: "easeOutExpo",
+              duration: 1300,
+              loop: false
+            });
+            anime({
+              targets: "#btn",
+              duration: 800,
+              opacity: 1,
+              delay: 1000,
+              transition: 500
+            });
+            anime({
+              targets: "#box",
+              translateY: -800,
+              duration: 4000,
+              opacity: 0
+            });
+          };
+        });
+      };
+
+      // anime({
+      //   targets: ".line-drawing-demo .lines path",
+      //   strokeDashoffset: [anime.setDashoffset, 0],
+      //   easing: "easeInOutSine",
+      //   duration: 1500,
+      //   delay: function(el, i) {
+      //     return i * 250;
+      //   },
+      //   direction: "alternate",
+      //   loop: true
+      // });
+    </script>
+  </body>
+</html>
